@@ -1,9 +1,9 @@
 #include "mpi/shurigin_s_vertikal_shema_mpi/include/ops_mpi.hpp"
 
+#include <algorithm>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/vector.hpp>
 
-#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <functional>
