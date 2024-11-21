@@ -4,7 +4,6 @@
 
 #include <boost/mpi/collectives.hpp>
 #include <boost/mpi/communicator.hpp>
-
 #include <memory>
 #include <string>
 #include <utility>
@@ -39,7 +38,8 @@ class TestTaskMPI : public ppc::core::Task {
 
 class TestTaskSequential : public ppc::core::Task {
  public:
-  explicit TestTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_): Task(std::move(taskData_)), matrix_data_(nullptr), num_rows_(0), num_cols_(0) {}
+  explicit TestTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_)
+    : Task(std::move(taskData_)), matrix_data_(nullptr), num_rows_(0), num_cols_(0) {}
   bool pre_processing() override;
   bool validation() override;
   bool run() override;
