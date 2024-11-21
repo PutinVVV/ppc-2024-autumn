@@ -26,6 +26,7 @@ TEST(shurigin_s_vertikal_shema, Performance_Pipeline_Run) {
     num_rows = 1000;
     num_cols = 1000;
 
+    // Generate random matrix in column-major order
     global_matrix.resize(num_rows * num_cols);
     for (int j = 0; j < num_cols; ++j) {
       for (int i = 0; i < num_rows; ++i) {
