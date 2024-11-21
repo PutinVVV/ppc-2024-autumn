@@ -16,7 +16,7 @@ namespace shurigin_s_vertikal_shema {
 std::vector<int> getRandomMatrix(int rows, int cols) {
   std::vector<int> matrix(rows * cols);
   for (int i = 0; i < rows * cols; ++i) {
-    matrix[i] = rand() % 10;
+    matrix[i] = (rand() % 21) - 10;  // Generate numbers from -10 to 10
   }
   return matrix;
 }
@@ -24,7 +24,7 @@ std::vector<int> getRandomMatrix(int rows, int cols) {
 std::vector<int> getRandomVector(int size) {
   std::vector<int> vector(size);
   for (int i = 0; i < size; ++i) {
-    vector[i] = rand() % 10;
+    vector[i] = (rand() % 21) - 10;  // Generate numbers from -10 to 10
   }
   return vector;
 }
