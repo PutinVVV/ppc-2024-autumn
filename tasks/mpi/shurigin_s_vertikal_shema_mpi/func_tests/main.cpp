@@ -1,9 +1,9 @@
+#include <gtest/gtest.h>
 #include <memory>
 #include <vector>
 
 #include <boost/mpi/environment.hpp>
 #include <boost/mpi/timer.hpp>
-#include <gtest/gtest.h>
 
 #include "mpi/shurigin_s_vertikal_shema_mpi/include/ops_mpi.hpp"
 
