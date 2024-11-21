@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/vector.hpp>
-
 #include <cstdlib>
 #include <ctime>
 #include <functional>
