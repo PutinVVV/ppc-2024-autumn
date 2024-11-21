@@ -1,4 +1,3 @@
-#include <boost/mpi.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/mpi/timer.hpp>
 #include <gtest/gtest.h>

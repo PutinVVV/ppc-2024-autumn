@@ -1,12 +1,13 @@
+#include <gtest/gtest.h>
+
 #include <boost/mpi.hpp>
 #include <boost/mpi/environment.hpp>
 #include <boost/mpi/timer.hpp>
-#include <gtest/gtest.h>
 #include <memory>
 #include <vector>
 
-#include "mpi/shurigin_s_vertikal_shema_mpi/include/ops_mpi.hpp"
 #include "core/perf/include/perf.hpp"
+#include "mpi/shurigin_s_vertikal_shema_mpi/include/ops_mpi.hpp"
 
 using namespace shurigin_s_vertikal_shema;
 
@@ -33,7 +34,7 @@ TEST(shurigin_s_vertikal_shema, Performance_Pipeline_Run) {
         global_matrix[j * num_rows + i] = rand() % 100;
       }
     }
-    
+
     // Generate random vector
     global_vector.resize(num_cols);
     for (int i = 0; i < num_cols; ++i) {
@@ -119,7 +120,7 @@ TEST(shurigin_s_vertikal_shema, Performance_Task_Run) {
         global_matrix[j * num_rows + i] = rand() % 100;
       }
     }
-    
+
     // Generate random vector
     global_vector.resize(num_cols);
     for (int i = 0; i < num_cols; ++i) {

@@ -19,8 +19,7 @@ void calculate_distribution(int rows, int cols, int num_proc, std::vector<int>& 
 
 class TestTaskMPI : public ppc::core::Task {
  public:
-  explicit TestTaskMPI(std::shared_ptr<ppc::core::TaskData> taskData_)
-      : Task(std::move(taskData_)) {}
+  explicit TestTaskMPI(std::shared_ptr<ppc::core::TaskData> taskData_) : Task(std::move(taskData_)) {}
   bool pre_processing() override;
   bool validation() override;
   bool run() override;

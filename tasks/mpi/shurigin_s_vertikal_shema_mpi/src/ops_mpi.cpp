@@ -3,20 +3,20 @@
 #include <algorithm>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/vector.hpp>
+#include <cstdlib>
+#include <ctime>
 #include <functional>
 #include <iostream>
 #include <limits>
 #include <numeric>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
 
 namespace shurigin_s_vertikal_shema {
 
 std::vector<int> getRandomMatrix(int rows, int cols) {
   std::vector<int> matrix(rows * cols);
   for (int i = 0; i < rows * cols; ++i) {
-    matrix[i] = rand() % 10;  
+    matrix[i] = rand() % 10;
   }
   return matrix;
 }
@@ -24,30 +24,28 @@ std::vector<int> getRandomMatrix(int rows, int cols) {
 std::vector<int> getRandomVector(int size) {
   std::vector<int> vector(size);
   for (int i = 0; i < size; ++i) {
-    vector[i] = rand() % 10;  
+    vector[i] = rand() % 10;
   }
   return vector;
 }
 
-void calculate_distribution(int rows, int cols, int num_proc,
-                            std::vector<int>& sizes,
-                            std::vector<int>& displs) {
+void calculate_distribution(int rows, int cols, int num_proc, std::vector<int>& sizes, std::vector<int>& displs) {
   sizes.resize(num_proc, 0);
   displs.resize(num_proc, -1);
 
   if (num_proc > cols) {
     for (int i = 0; i < cols; ++i) {
-      sizes[i] = rows;  
-      displs[i] = i * rows;  
+      sizes[i] = rows;
+      displs[i] = i * rows;
     }
   } else {
-    int cols_per_proc = cols / num_proc;  
-    int extra_cols = cols % num_proc;     
+    int cols_per_proc = cols / num_proc;
+    int extra_cols = cols % num_proc;
 
     int offset = 0;
     for (int i = 0; i < num_proc; ++i) {
       if (extra_cols > 0) {
-        sizes[i] = (cols_per_proc + 1) * rows;  
+        sizes[i] = (cols_per_proc + 1) * rows;
         --extra_cols;
       } else {
         sizes[i] = cols_per_proc * rows;
@@ -67,14 +65,14 @@ bool TestTaskMPI::validation() {
 
   bool valid_matrix = taskData->inputs[0] != nullptr && taskData->inputs_count[0] > 0;
   bool valid_vector = taskData->inputs[1] != nullptr && taskData->inputs_count[1] > 0;
-  
+
   if (!valid_matrix || !valid_vector) {
     return false;
   }
 
   const size_t matrix_size = taskData->inputs_count[0];
   const size_t vector_size = taskData->inputs_count[1];
-  
+
   if (matrix_size == 0 || vector_size == 0) {
     return false;
   }
@@ -84,7 +82,7 @@ bool TestTaskMPI::validation() {
   }
 
   const size_t num_rows = matrix_size / vector_size;
-  
+
   return taskData->outputs_count[0] == num_rows;
 }
 
@@ -158,41 +156,41 @@ bool TestTaskMPI::post_processing() {
 }
 
 bool TestTaskSequential::validation() {
-    return taskData && taskData->inputs_count[0] > 0 && taskData->inputs_count[1] > 0;
+  return taskData && taskData->inputs_count[0] > 0 && taskData->inputs_count[1] > 0;
 }
 
 bool TestTaskSequential::pre_processing() {
-    matrix_data_ = reinterpret_cast<int*>(taskData->inputs[0]);
-    int matrix_size = taskData->inputs_count[0];
+  matrix_data_ = reinterpret_cast<int*>(taskData->inputs[0]);
+  int matrix_size = taskData->inputs_count[0];
 
-    int* vector_data = reinterpret_cast<int*>(taskData->inputs[1]);
-    num_cols_ = taskData->inputs_count[1];
-    
-    num_rows_ = matrix_size / num_cols_;
+  int* vector_data = reinterpret_cast<int*>(taskData->inputs[1]);
+  num_cols_ = taskData->inputs_count[1];
 
-    input_vector_.assign(vector_data, vector_data + num_cols_);
+  num_rows_ = matrix_size / num_cols_;
 
-    result_vector_.assign(num_rows_, 0);
+  input_vector_.assign(vector_data, vector_data + num_cols_);
 
-    return true;
+  result_vector_.assign(num_rows_, 0);
+
+  return true;
 }
 
 bool TestTaskSequential::run() {
-    for (int i = 0; i < num_rows_; ++i) {
-        result_vector_[i] = 0;
-        for (int j = 0; j < num_cols_; ++j) {
-            result_vector_[i] += matrix_data_[i * num_cols_ + j] * input_vector_[j];
-        }
+  for (int i = 0; i < num_rows_; ++i) {
+    result_vector_[i] = 0;
+    for (int j = 0; j < num_cols_; ++j) {
+      result_vector_[i] += matrix_data_[i * num_cols_ + j] * input_vector_[j];
     }
+  }
 
-    return true;
+  return true;
 }
 
 bool TestTaskSequential::post_processing() {
-    int* output_data = reinterpret_cast<int*>(taskData->outputs[0]);
-    std::copy(result_vector_.begin(), result_vector_.end(), output_data);
+  int* output_data = reinterpret_cast<int*>(taskData->outputs[0]);
+  std::copy(result_vector_.begin(), result_vector_.end(), output_data);
 
-    return true;
+  return true;
 }
 
-}
+}  // namespace shurigin_s_vertikal_shema
